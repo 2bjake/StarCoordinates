@@ -4,6 +4,11 @@ import Foundation
 public struct HorizontalCoordinates {
   public var altitudeDeg: Double
   public var azimuthDeg: Double
+
+  public init(altitudeDeg: Double, azimuthDeg: Double) {
+    self.altitudeDeg = altitudeDeg
+    self.azimuthDeg = azimuthDeg
+  }
 }
 
 extension HorizontalCoordinates {
