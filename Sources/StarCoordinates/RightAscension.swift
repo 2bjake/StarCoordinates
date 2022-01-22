@@ -15,7 +15,7 @@ public struct RightAscension {
 }
 
 extension RightAscension {
-  public func hourAngle(longitude: Double, date: Date) -> Angle {
+  public func hourAngle(longitude: Angle, date: Date) -> Angle {
     let lst = date.localSiderealTime(longitude: longitude)
     var angle = lst.decimalDegrees - self.decimalDegrees
     if angle < 0 { angle += 360 }

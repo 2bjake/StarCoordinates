@@ -1,5 +1,4 @@
 import XCTest
-import CoreLocation
 import StarCoordinates
 
 private func validate(_ instruction: AzimuthInstruction, _ heading: CardinalDirection, _ shouldRotateClockwise: Bool, _ adjustedAngle: Double) {
@@ -24,7 +23,7 @@ final class StarCoordinatesTests: XCTestCase {
     let m13Coordinates = EquatorialCoordinates(rightAscension: .init(hours: 16, minutes: 41, seconds: 42),
                                                declination: .init(degrees: 36, minutes: 28, seconds: 0))
 
-    let birminghamUKLoc = CLLocationCoordinate2D(latitude: 52.5, longitude: -1.9166667)
+    let birminghamUKLoc = Location(latitude: 52.5, longitude: -1.9166667)
     let exampleDate = try! Date("1998-08-10T23:10:00Z", strategy: .iso8601)
 
     XCTAssertEqual(exampleDate.daysSince(epoch: .j2000), -508.53472, accuracy: 0.01)
@@ -44,7 +43,7 @@ final class StarCoordinatesTests: XCTestCase {
   func haleBoppExample() throws {
     // http://www.stargazing.net/kepler/altaz.html
     let date = try! Date("1997-03-14T19:00:00Z", strategy: .iso8601)
-    let birminghamUKLoc = CLLocationCoordinate2D(latitude: 52.5, longitude: -1.9166667)
+    let birminghamUKLoc = Location(latitude: 52.5, longitude: -1.9166667)
     let cometCoordinates = EquatorialCoordinates(rightAscension: .init(hours: 22, minutes: 59, seconds: 48), declination: .init(degrees: 42, minutes: 43, seconds: 0))
 
     let lst = date.localSiderealTime(longitude: birminghamUKLoc.longitude)

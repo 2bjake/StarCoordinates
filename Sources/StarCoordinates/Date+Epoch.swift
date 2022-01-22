@@ -12,13 +12,13 @@ extension Date {
   }
 
   //longitude is in decimal degrees, East is positive.
-  public func localSiderealTime(epoch: Epoch = .j2000, longitude: Double) -> Angle {
+  public func localSiderealTime(epoch: Epoch = .j2000, longitude: Angle) -> Angle {
     let components = Calendar.current.dateComponents(in: TimeZone(secondsFromGMT: 0)!, from: self)
     let universalTime = Double(components.hour!) + Double(components.minute!) / 60 + Double(components.second!) / 3600
 
     var angle: Double
     switch epoch {
-      case .j2000: angle = 100.46 + 0.985647 * daysSince(epoch: epoch) + longitude + 15 * universalTime
+      case .j2000: angle = 100.46 + 0.985647 * daysSince(epoch: epoch) + longitude.decimalDegrees + 15 * universalTime
     }
 
     while angle < 0 { angle += 360 }

@@ -1,4 +1,3 @@
-import CoreLocation
 import Foundation
 
 public struct HorizontalCoordinates {
@@ -12,12 +11,12 @@ public struct HorizontalCoordinates {
 }
 
 extension HorizontalCoordinates {
-  public init(coordinates: EquatorialCoordinates, location: CLLocationCoordinate2D, date: Date) {
+  public init(coordinates: EquatorialCoordinates, location: Location, date: Date) {
     let hourAngle = coordinates.rightAscension.hourAngle(longitude: location.longitude, date: date)
 
     let haRad = hourAngle.radians
     let decRad = coordinates.declination.radians
-    let latRad = location.latitude * .pi / 180
+    let latRad = location.latitude.radians
 
     let altRad = asin(sin(decRad) * sin(latRad) + cos(decRad) * cos(latRad) * cos(haRad))
 
