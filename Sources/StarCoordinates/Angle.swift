@@ -1,3 +1,5 @@
+import Foundation
+
 public struct Angle {
   public struct DMS {
     let degrees: Int
@@ -15,7 +17,7 @@ public struct Angle {
     self.radians = decimalDegrees.toRadians()
   }
 
-  public init(degrees: Int, minutes: Int, seconds: Double) {
+  public init(degrees: Int, minutes: Int, seconds: Double = 0) {
     self.init(dms: DMS(degrees: degrees, minutes: minutes, seconds: seconds))
   }
 
@@ -29,6 +31,20 @@ public struct Angle {
     self.radians = radians
     self.decimalDegrees = radians.toDegrees()
     self.dms = decimalDegrees.toDMS()
+  }
+
+  // TODO: operators?
+
+  mutating func wrapTo360() {
+    var degrees = fmod(self.decimalDegrees, 360)
+    if degrees < 0 { degrees += 360 }
+    self = .init(decimalDegrees: degrees)
+  }
+
+  func wrappedTo360() -> Angle {
+    var angle = self
+    angle.wrapTo360()
+    return angle
   }
 }
 

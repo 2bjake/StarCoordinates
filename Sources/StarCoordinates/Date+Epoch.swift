@@ -20,10 +20,7 @@ extension Date {
     switch epoch {
       case .j2000: angle = 100.46 + 0.985647 * daysSince(epoch: epoch) + longitude.decimalDegrees + 15 * universalTime
     }
-
-    while angle < 0 { angle += 360 }
-    while angle > 360 { angle -= 360 }
-    return Angle(decimalDegrees: angle)
+    return Angle(decimalDegrees: angle).wrappedTo360()
   }
 }
 
