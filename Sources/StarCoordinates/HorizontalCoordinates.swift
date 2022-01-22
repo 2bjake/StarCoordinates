@@ -2,12 +2,12 @@ import CoreLocation
 import Foundation
 
 public struct HorizontalCoordinates {
-  public var altitudeDeg: Double
-  public var azimuthDeg: Double
+  public var altitude: Angle
+  public var azimuth: Angle
 
-  public init(altitudeDeg: Double, azimuthDeg: Double) {
-    self.altitudeDeg = altitudeDeg
-    self.azimuthDeg = azimuthDeg
+  public init(altitude: Angle, azimuth: Angle) {
+    self.altitude = altitude
+    self.azimuth = azimuth
   }
 }
 
@@ -15,8 +15,8 @@ extension HorizontalCoordinates {
   public init(coordinates: EquatorialCoordinates, location: CLLocationCoordinate2D, date: Date) {
     let hourAngle = coordinates.rightAscension.hourAngle(longitude: location.longitude, date: date)
 
-    let haRad = hourAngle * .pi / 180
-    let decRad = coordinates.declination.degrees * .pi / 180
+    let haRad = hourAngle.radians
+    let decRad = coordinates.declination.radians
     let latRad = location.latitude * .pi / 180
 
     let altRad = asin(sin(decRad) * sin(latRad) + cos(decRad) * cos(latRad) * cos(haRad))
@@ -30,7 +30,7 @@ extension HorizontalCoordinates {
       azRad = (2 * .pi) - aRad
     }
 
-    self.altitudeDeg = altRad * 180 / .pi
-    self.azimuthDeg = azRad * 180 / .pi
+    self.altitude = Angle(radians: altRad)
+    self.azimuth = Angle(radians: azRad)
   }
 }
