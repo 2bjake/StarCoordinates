@@ -2,9 +2,9 @@ import Foundation
 
 public struct Angle {
   public struct DMS {
-    let degrees: Int
-    let minutes: Int
-    let seconds: Double
+    public let degrees: Int
+    public let minutes: Int
+    public let seconds: Double
   }
 
   public let dms: DMS
@@ -35,16 +35,24 @@ public struct Angle {
 
   // TODO: operators?
 
-  mutating func wrapTo360() {
+  public mutating func wrapTo360() {
     var degrees = fmod(self.decimalDegrees, 360)
     if degrees < 0 { degrees += 360 }
     self = .init(decimalDegrees: degrees)
   }
 
-  func wrappedTo360() -> Angle {
+  // decimalDegrees >= 0 and < 360
+  public func wrappedTo360() -> Angle {
     var angle = self
     angle.wrapTo360()
     return angle
+  }
+
+  // decimalDegrees > -180 and <= 180
+  public func wrappedTo180() -> Angle {
+    var wrapped = wrappedTo360().decimalDegrees
+    if wrapped > 180 { wrapped -= 360 }
+    return Angle(decimalDegrees: wrapped)
   }
 }
 
