@@ -48,7 +48,7 @@ extension TwoLineElement {
       epochYear = try makeInt(lineOne.consume(2))
       epochDay = try makeDouble(lineOne.consume(12))
       lineOne.removeFirst()
-      firstDerivativeOfMeanMotion = Double(lineOne.consume(10))!
+      firstDerivativeOfMeanMotion = try makeDouble(lineOne.consume(10))
       lineOne.removeFirst()
       secondDerivativeOfMeanMotion = try makeDoubleAssumingDecimal(lineOne.consume(6), exponent: lineOne.consume(2))
       lineOne.removeFirst()
@@ -56,7 +56,7 @@ extension TwoLineElement {
       lineOne.removeFirst()
       ephemerisType = lineOne.removeFirst()
       lineOne.removeFirst()
-      elementSetNumber = Int(lineOne.consume(4))!
+      elementSetNumber = try makeInt(lineOne.consume(4))
     } catch {
       print("failed to parse line one")
       return nil
