@@ -22,45 +22,83 @@ public struct TwoLineElement {
   public let elementSetNumber: Int
 
   // line 2
-//  let inclination: Double
-//  let rightAscensionOfTheAscendingNode: Double
-//  let eccentricity: Double
-//  let argumentOfPerigee: Double
-//  let meanAnomaly: Double
-//  let meanMotion: Double
-//  let revolutions: Int
+  public let inclination: Double
+  public let rightAscensionOfTheAscendingNode: Double
+  public let eccentricity: Double
+  public let argumentOfPerigee: Double
+  public let meanAnomaly: Double
+  public let meanMotion: Double
+  public let revolutions: Int
 }
 
 extension TwoLineElement {
-  public init(name: String, lineOne: String, lineTwo: String) {
-    self.name = name
+  public init?(name: String, lineOne: String, lineTwo: String) {
+    self.name = name.trimmingCharacters(in: .whitespaces)
+    // line one
+    do {
+      var lineOne = Substring(lineOne)
+      lineOne.removeFirst(2)
+      catalogNumber = try makeInt(lineOne.consume(5))
+      classification = lineOne.removeFirst()
+      lineOne.removeFirst()
+      internationalDesignator = InternationalDesignator(
+        launchYear: try makeInt(lineOne.consume(2)),
+        launchNumber: try makeInt(lineOne.consume(3)),
+        pieceOfLaunch: lineOne.consume(3))
+      lineOne.removeFirst()
+      epochYear = try makeInt(lineOne.consume(2))
+      epochDay = try makeDouble(lineOne.consume(12))
+      lineOne.removeFirst()
+      firstDerivativeOfMeanMotion = Double(lineOne.consume(10))!
+      lineOne.removeFirst()
+      secondDerivativeOfMeanMotion = try makeDoubleAssumingDecimal(lineOne.consume(6), exponent: lineOne.consume(2))
+      lineOne.removeFirst()
+      bstar = try makeDoubleAssumingDecimal(lineOne.consume(6), exponent: lineOne.consume(2))
+      lineOne.removeFirst()
+      ephemerisType = lineOne.removeFirst()
+      lineOne.removeFirst()
+      elementSetNumber = Int(lineOne.consume(4))!
+    } catch {
+      print("failed to parse line one")
+      return nil
+    }
 
-    var lineOne = Substring(lineOne)
-    lineOne.removeFirst(2)
-    catalogNumber = Int(lineOne.consume(5))!
-    classification = lineOne.removeFirst()
-    lineOne.removeFirst()
-    internationalDesignator = InternationalDesignator(
-      launchYear: Int(lineOne.consume(2))!,
-      launchNumber: Int(lineOne.consume(3))!,
-      pieceOfLaunch: lineOne.consume(3))
-    lineOne.removeFirst()
-    epochYear = Int(lineOne.consume(2))!
-    epochDay = Double(lineOne.consume(12))!
-    lineOne.removeFirst()
-    firstDerivativeOfMeanMotion = Double(lineOne.consume(10))!
-    lineOne.removeFirst()
-    secondDerivativeOfMeanMotion = assumeDecimalDouble(lineOne.consume(6), exponent: lineOne.consume(2))
-    lineOne.removeFirst()
-    bstar = assumeDecimalDouble(lineOne.consume(6), exponent: lineOne.consume(2))
-    lineOne.removeFirst()
-    ephemerisType = lineOne.removeFirst()
-    lineOne.removeFirst()
-    elementSetNumber = Int(lineOne.consume(4))!
+    // line two
+    do {
+      var lineTwo = Substring(lineTwo)
+      lineTwo.removeFirst(8)
+      inclination = try makeDouble(lineTwo.consume(8))
+      lineTwo.removeFirst()
+      rightAscensionOfTheAscendingNode = try makeDouble(lineTwo.consume(8))
+      lineTwo.removeFirst()
+      eccentricity = try makeDoubleAssumingDecimal(lineTwo.consume(7))
+      lineTwo.removeFirst()
+      argumentOfPerigee = try makeDouble(lineTwo.consume(8))
+      lineTwo.removeFirst()
+      meanAnomaly = try makeDouble(lineTwo.consume(8))
+      lineTwo.removeFirst()
+      meanMotion = try makeDouble(lineTwo.consume(11))
+      revolutions = try makeInt(lineTwo.consume(5))
+    } catch {
+      print("failed to parse line two")
+      return nil
+    }
   }
 }
 
-func assumeDecimalDouble(_ base: String, exponent: String? = nil) -> Double {
+private struct ParseError: Error {}
+
+private func makeInt(_ source: String) throws -> Int {
+  guard let result = Int(source) else { throw ParseError() }
+  return result
+}
+
+private func makeDouble(_ source: String) throws -> Double {
+  guard let result = Double(source) else { throw ParseError() }
+  return result
+}
+
+private func makeDoubleAssumingDecimal(_ base: String, exponent: String? = nil) throws -> Double {
   var str = ""
   if base.first == "-" {
     str = "-0." + base.dropFirst()
@@ -72,7 +110,7 @@ func assumeDecimalDouble(_ base: String, exponent: String? = nil) -> Double {
     str += "e" + exponent
   }
 
-  return Double(str)!
+  return try makeDouble(str)
 }
 
 private extension Substring {
