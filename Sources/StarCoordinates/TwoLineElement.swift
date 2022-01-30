@@ -1,5 +1,3 @@
-
-
 public struct TwoLineElement {
   public struct InternationalDesignator {
     public let launchYear: Int
@@ -32,8 +30,10 @@ public struct TwoLineElement {
 }
 
 extension TwoLineElement {
+  // https://en.wikipedia.org/wiki/Two-line_element_set#Format
   public init?(name: String, lineOne: String, lineTwo: String) {
     self.name = name.trimmingCharacters(in: .whitespaces)
+
     // line one
     do {
       var lineOne = Substring(lineOne)
@@ -41,10 +41,9 @@ extension TwoLineElement {
       catalogNumber = try makeInt(lineOne.consume(5))
       classification = lineOne.removeFirst()
       lineOne.removeFirst()
-      internationalDesignator = InternationalDesignator(
-        launchYear: try makeInt(lineOne.consume(2)),
-        launchNumber: try makeInt(lineOne.consume(3)),
-        pieceOfLaunch: lineOne.consume(3))
+      internationalDesignator = InternationalDesignator(launchYear: try makeInt(lineOne.consume(2)),
+                                                        launchNumber: try makeInt(lineOne.consume(3)),
+                                                        pieceOfLaunch: lineOne.consume(3))
       lineOne.removeFirst()
       epochYear = try makeInt(lineOne.consume(2))
       epochDay = try makeDouble(lineOne.consume(12))
