@@ -4,7 +4,6 @@
 //
 //  Created by Jake Foster on 1/30/22.
 //
-
 import XCTest
 import Foundation
 @testable import StarCoordinates

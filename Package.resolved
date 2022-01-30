@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "WrappedSGP4",
+        "repositoryURL": "/Users/jakefoster/workspace/Space/WrappedSGP4",
+        "state": {
+          "branch": "main",
+          "revision": "d5491ca59305aeb3569cabfc3e66e2c5de5470d7",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

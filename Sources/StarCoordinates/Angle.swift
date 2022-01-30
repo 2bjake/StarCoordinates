@@ -5,6 +5,12 @@ public struct Angle {
     public let degrees: Int
     public let minutes: Int
     public let seconds: Double
+
+    public init(degrees: Int, minutes: Int, seconds: Double) {
+      self.degrees = degrees
+      self.minutes = minutes
+      self.seconds = seconds
+    }
   }
 
   public let dms: DMS
