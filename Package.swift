@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "StarCoordinates",
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
             name: "StarCoordinates",

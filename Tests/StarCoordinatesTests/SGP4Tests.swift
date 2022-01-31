@@ -18,7 +18,8 @@ class SGP4Tests: XCTestCase {
       let altAz = computeAltAz(Angle(dms: .init(degrees: 30, minutes: 22, seconds: 38)).decimalDegrees,
                                Angle(dms: .init(degrees: -97, minutes: 50, seconds: 56)).decimalDegrees,
                                tle.lineOne,
-                               tle.lineTwo)
+                               tle.lineTwo,
+                               .now)
 
       let coords = HorizontalCoordinates(altitude: .init(radians: altAz.alt), azimuth: .init(radians: altAz.az))
       print("azimuth", coords.azimuth.dms, "altitude", coords.altitude.dms)

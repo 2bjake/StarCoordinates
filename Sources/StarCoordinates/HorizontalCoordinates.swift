@@ -34,8 +34,8 @@ extension HorizontalCoordinates {
     self.azimuth = Angle(radians: azRad)
   }
 
-  public init(tle: TwoLineElement, location: Location) {
-    let altAz = computeAltAz(location.latitude.decimalDegrees, location.longitude.decimalDegrees, tle.lineOne, tle.lineTwo)
+  public init(tle: TwoLineElement, location: Location, date: Date) {
+    let altAz = computeAltAz(location.latitude.decimalDegrees, location.longitude.decimalDegrees, tle.lineOne, tle.lineTwo, date)
     self.altitude = Angle(radians: altAz.alt)
     self.azimuth = Angle(radians: altAz.az)
   }
