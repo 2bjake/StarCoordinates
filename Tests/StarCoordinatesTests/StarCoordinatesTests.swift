@@ -1,9 +1,9 @@
 import XCTest
 import StarCoordinates
 
+@available(macOS 12.0, iOS 15.0, *)
 final class StarCoordinatesTests: XCTestCase {
-  @available(macOS 12.0, *)
-  func m13Example() throws {
+  func testM13Example() throws {
     // http://www.stargazing.net/kepler/altaz.html
     let m13Coordinates = EquatorialCoordinates(rightAscension: .init(hours: 16, minutes: 41, seconds: 42),
                                                declination: .init(degrees: 36, minutes: 28))
@@ -24,8 +24,7 @@ final class StarCoordinatesTests: XCTestCase {
     XCTAssertEqual(horizontalCoordinates.azimuth.decimalDegrees, 269.14634, accuracy: 0.01)
   }
 
-  @available(macOS 12.0, *)
-  func haleBoppExample() throws {
+  func testHaleBoppExample() throws {
     // http://www.stargazing.net/kepler/altaz.html
     let date = try! Date("1997-03-14T19:00:00Z", strategy: .iso8601)
     let birminghamUKLoc = Location(latitude: 52.5, longitude: -1.9166667)

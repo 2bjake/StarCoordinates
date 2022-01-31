@@ -1,4 +1,5 @@
 import Foundation
+import WrappedSGP4
 
 public struct HorizontalCoordinates {
   public var altitude: Angle
@@ -31,5 +32,11 @@ extension HorizontalCoordinates {
 
     self.altitude = Angle(radians: altRad)
     self.azimuth = Angle(radians: azRad)
+  }
+
+  public init(tle: TwoLineElement, location: Location) {
+    let altAz = computeAltAz(location.latitude.decimalDegrees, location.longitude.decimalDegrees, tle.lineOne, tle.lineTwo)
+    self.altitude = Angle(radians: altAz.alt)
+    self.azimuth = Angle(radians: altAz.az)
   }
 }

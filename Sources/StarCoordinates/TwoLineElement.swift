@@ -6,6 +6,8 @@ public struct TwoLineElement {
   }
 
   public let name: String
+  public let lineOne: String
+  public let lineTwo: String
 
   // line 1
   public let catalogNumber: Int
@@ -33,6 +35,8 @@ extension TwoLineElement {
   // https://en.wikipedia.org/wiki/Two-line_element_set#Format
   public init?(name: String, lineOne: String, lineTwo: String) {
     self.name = name.trimmingCharacters(in: .whitespaces)
+    self.lineOne = lineOne
+    self.lineTwo = lineTwo
 
     // line one
     do {

@@ -14,7 +14,7 @@ let package = Package(
     targets: [
         .target(
             name: "StarCoordinates",
-            dependencies: []),
+            dependencies: ["WrappedSGP4"]),
         .testTarget(
             name: "StarCoordinatesTests",
             dependencies: ["StarCoordinates", "WrappedSGP4"]),
